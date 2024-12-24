@@ -4,9 +4,6 @@ import ru.practicum.shareit.booking.enums.BookingStatus;
 
 import java.time.LocalDateTime;
 
-/**
- * TODO Sprint add-bookings.
- */
 public class BookingDto {
     private Long id;
 

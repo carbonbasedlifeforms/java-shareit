@@ -16,28 +16,28 @@ public class ErrorHandler {
 
     @ExceptionHandler
     @ResponseStatus(HttpStatus.BAD_REQUEST)
-    public ErrorResponse handleNotValid(final MethodArgumentNotValidException e) {
+    public ErrorResponse handleNotValid(MethodArgumentNotValidException e) {
         log.warn("Not valid: {}", e.getMessage());
         return new ErrorResponse(e.getMessage());
     }
 
     @ExceptionHandler
     @ResponseStatus(HttpStatus.CONFLICT)
-    public ErrorResponse handleDuplicateData(final DuplicateDataException e) {
+    public ErrorResponse handleDuplicateData(DuplicateDataException e) {
         log.warn("Duplicate data: {}", e.getMessage());
         return new ErrorResponse(e.getMessage());
     }
 
     @ExceptionHandler
     @ResponseStatus(HttpStatus.BAD_REQUEST)
-    public ErrorResponse handleValidation(final ValidationException e) {
+    public ErrorResponse handleValidation(ValidationException e) {
         log.warn("Validation error: {}", e.getMessage());
         return new ErrorResponse(e.getMessage());
     }
 
     @ExceptionHandler
     @ResponseStatus(HttpStatus.NOT_FOUND)
-    public ErrorResponse handleNotFound(final NotFoundException e) {
+    public ErrorResponse handleNotFound(NotFoundException e) {
         log.warn("Not found: {}", e.getMessage());
         return new ErrorResponse(e.getMessage());
     }

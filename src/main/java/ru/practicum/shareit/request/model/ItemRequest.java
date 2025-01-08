@@ -1,8 +1,11 @@
-package ru.practicum.shareit.request.dto;
+package ru.practicum.shareit.request.model;
+
+import lombok.Data;
 
 import java.time.LocalDateTime;
 
-public class ItemRequestDto {
+@Data
+public class ItemRequest {
     private Long id;
 
     private String description;

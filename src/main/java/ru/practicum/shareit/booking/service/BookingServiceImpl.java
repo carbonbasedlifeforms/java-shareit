@@ -1,9 +1,9 @@
 package ru.practicum.shareit.booking.service;
 
-import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import ru.practicum.shareit.booking.dto.BookingDto;
 import ru.practicum.shareit.booking.dto.BookingInDto;
 import ru.practicum.shareit.booking.enums.BookingState;
@@ -46,6 +46,7 @@ public class BookingServiceImpl implements BookingService {
         return BookingMapper.toBookingDto(bookingRepository.save(booking));
     }
 
+    @Transactional
     @Override
     public BookingDto changeBookingApproved(Long userId, Long bookingId, String approved) {
         userRepository.findById(userId)
@@ -57,7 +58,7 @@ public class BookingServiceImpl implements BookingService {
         else
             booking.setStatus(BookingStatus.REJECTED);
         log.info("Booking approved status updated: {}", booking);
-        return BookingMapper.toBookingDto(bookingRepository.save(booking));
+        return BookingMapper.toBookingDto(booking);
     }
 
     @Override
@@ -72,12 +73,12 @@ public class BookingServiceImpl implements BookingService {
     public List<BookingDto> getUserBookings(Long userId, String state) {
         List<Booking> bookings;
         bookings = switch (BookingState.getBookingState(state)) {
-            case ALL -> bookingRepository.findAllByBooker_id(userId);
-            case PAST -> bookingRepository.findAllByBooker_idAndEndBefore(userId, NOW);
-            case FUTURE -> bookingRepository.findAllByBooker_idAndStartAfter(userId, NOW);
+            case ALL -> bookingRepository.findAllByBookerId(userId);
+            case PAST -> bookingRepository.findAllByBookerIdAndEndBefore(userId, NOW);
+            case FUTURE -> bookingRepository.findAllByBookerIdAndStartAfter(userId, NOW);
             case CURRENT -> bookingRepository.findAllByBookerAndNowBetweenStartAndEnd(userId, NOW);
-            case WAITING -> bookingRepository.findAllByBooker_idAndStatus(userId, BookingStatus.WAITING);
-            case REJECTED -> bookingRepository.findAllByBooker_idAndStatus(userId, BookingStatus.REJECTED);
+            case WAITING -> bookingRepository.findAllByBookerIdAndStatus(userId, BookingStatus.WAITING);
+            case REJECTED -> bookingRepository.findAllByBookerIdAndStatus(userId, BookingStatus.REJECTED);
         };
         return bookings.stream()
                 .map(BookingMapper::toBookingDto)
@@ -89,12 +90,12 @@ public class BookingServiceImpl implements BookingService {
         checkUserExists(userId);
         List<Booking> bookings;
         bookings = switch (BookingState.getBookingState(state)) {
-            case ALL -> bookingRepository.findAllByItem_Owner_id(userId);
-            case PAST -> bookingRepository.findAllByItem_Owner_idAndEndBefore(userId, NOW);
-            case FUTURE -> bookingRepository.findAllByItem_Owner_idAndStartAfter(userId, NOW);
+            case ALL -> bookingRepository.findAllByItemOwnerId(userId);
+            case PAST -> bookingRepository.findAllByItemOwnerIdAndEndBefore(userId, NOW);
+            case FUTURE -> bookingRepository.findAllByItemOwnerIdAndStartAfter(userId, NOW);
             case CURRENT -> bookingRepository.findAllByOwnerAndNowBetweenStartAndEnd(userId, NOW);
-            case WAITING -> bookingRepository.findAllByItem_Owner_idAndStatus(userId, BookingStatus.WAITING);
-            case REJECTED -> bookingRepository.findAllByItem_Owner_idAndStatus(userId, BookingStatus.REJECTED);
+            case WAITING -> bookingRepository.findAllByItemOwnerIdAndStatus(userId, BookingStatus.WAITING);
+            case REJECTED -> bookingRepository.findAllByItemOwnerIdAndStatus(userId, BookingStatus.REJECTED);
         };
         return bookings.stream()
                 .map(BookingMapper::toBookingDto)

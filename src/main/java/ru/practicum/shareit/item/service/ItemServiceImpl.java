@@ -3,6 +3,7 @@ package ru.practicum.shareit.item.service;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import ru.practicum.shareit.booking.enums.BookingStatus;
 import ru.practicum.shareit.booking.model.Booking;
 import ru.practicum.shareit.booking.storage.BookingRepository;
@@ -37,14 +38,16 @@ public class ItemServiceImpl implements ItemService {
         log.info("Get item by id {}", itemId);
         ItemDto itemDto = ItemMapper.toItemDto(itemRepository.findById(itemId)
                 .orElseThrow(() -> new NotFoundException("Item with id %d not found".formatted(itemId))));
-        Optional<Booking> lastBooking = bookingRepository.findFirstByItem_IdAndStatusAndStartBeforeAndEndAfterOrderByEndDesc(itemId,
-                BookingStatus.APPROVED, LocalDateTime.now(), LocalDateTime.now());
-        Optional<Booking> nextBooking = bookingRepository.findFirstByItem_IdAndStartAfterOrderByStartAsc(itemId,
+        Optional<Booking> lastBooking = bookingRepository
+                .findFirstByItemIdAndStatusAndStartBeforeAndEndAfterOrderByEndDesc(itemId, BookingStatus.APPROVED,
+                        LocalDateTime.now(), LocalDateTime.now());
+        Optional<Booking> nextBooking = bookingRepository.findFirstByItemIdAndStartAfterOrderByStartAsc(itemId,
                 LocalDateTime.now());
         itemDto.setLastBooking(lastBooking.map(Booking::getStart).orElse(null));
         itemDto.setNextBooking(nextBooking.map(Booking::getStart).orElse(null));
-        List<Comment> comments = commentRepository.findAllByAuthor_Id(userId);
-        itemDto.setComments(comments);
+        List<CommentDto> commentsDto = commentRepository.findAllByAuthor_Id(userId).stream()
+                .map(CommentMapper::toCommentDto).toList();
+        itemDto.setComments(commentsDto);
         return itemDto;
     }
 
@@ -67,6 +70,7 @@ public class ItemServiceImpl implements ItemService {
                 .map(ItemMapper::toItemDto).toList();
     }
 
+    @Transactional
     @Override
     public ItemDto createItem(Long userId, ItemDto itemDto) {
 
@@ -75,6 +79,7 @@ public class ItemServiceImpl implements ItemService {
         return ItemMapper.toItemDto(itemRepository.save(item));
     }
 
+    @Transactional
     @Override
     public ItemDto updateItem(Long userId, Long itemId, ItemDto itemDto) {
         getUserIfExists(userId);
@@ -89,12 +94,13 @@ public class ItemServiceImpl implements ItemService {
         return ItemMapper.toItemDto(itemRepository.save(item));
     }
 
+    @Transactional
     @Override
     public CommentDto addComment(Long userId, Long itemId, CommentDto commentDto) {
         User author = getUserIfExists(userId);
         Item item = itemRepository.findById(itemId)
                 .orElseThrow(() -> new NotFoundException("Item with id %d not found".formatted(itemId)));
-        bookingRepository.findFirstByItem_Id_AndBooker_idAndEndBeforeAndStatus(itemId, userId,
+        bookingRepository.findFirstByItemIdAndBookerIdAndEndBeforeAndStatus(itemId, userId,
                 LocalDateTime.now(), BookingStatus.APPROVED)
                 .orElseThrow(() -> new ValidationException(
                         "Comment for item with id %d and user with id %d is not possible"

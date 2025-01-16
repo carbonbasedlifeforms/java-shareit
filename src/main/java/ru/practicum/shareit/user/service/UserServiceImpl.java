@@ -3,6 +3,7 @@ package ru.practicum.shareit.user.service;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import ru.practicum.shareit.exception.NotFoundException;
 import ru.practicum.shareit.user.dto.UserDto;
 import ru.practicum.shareit.user.mapper.UserMapper;
@@ -34,17 +35,17 @@ public class UserServiceImpl implements UserService {
 
     }
 
+    @Transactional
     @Override
     public UserDto createUser(UserDto userDto) {
-//        checkExistsEmailUser(userDto.getEmail(), userDto.getId());
         User user = UserMapper.toUser(userDto);
         log.info("create user {}", userDto);
         return UserMapper.toUserDto(userRepository.save(user));
     }
 
+    @Transactional
     @Override
     public UserDto updateUser(Long id, UserDto userDto) {
-//        checkExistsEmailUser(userDto.getEmail(), id);
         User userForUpdate = userRepository.findById(id)
                 .orElseThrow(() -> new NotFoundException("User ID %d not found".formatted(id)));
         UserMapper.updateUserFields(userDto, userForUpdate);
@@ -52,16 +53,10 @@ public class UserServiceImpl implements UserService {
         return UserMapper.toUserDto(userRepository.save(userForUpdate));
     }
 
+    @Transactional
     @Override
     public void deleteUser(Long id) {
         log.info("delete user with id {}", id);
         userRepository.deleteById(id);
     }
-
-//    private void checkExistsEmailUser(String email, Long id) {
-//        if (userRepository.isDuplicatedEmailExists(email, id)) {
-//            log.warn("User with this email already exists");
-//            throw new DuplicateDataException("User with this email already exists");
-//        }
-//    }
 }

@@ -4,7 +4,9 @@ import lombok.experimental.UtilityClass;
 import ru.practicum.shareit.booking.dto.BookingDto;
 import ru.practicum.shareit.booking.dto.BookingInDto;
 import ru.practicum.shareit.booking.model.Booking;
+import ru.practicum.shareit.item.dto.ItemDto;
 import ru.practicum.shareit.item.model.Item;
+import ru.practicum.shareit.user.dto.UserDto;
 import ru.practicum.shareit.user.model.User;
 
 // пока сделал без использования MapStruct, оставлю себе как TODO
@@ -25,8 +27,17 @@ public class BookingMapper {
                 .id(booking.getId())
                 .start(booking.getStart())
                 .end(booking.getEnd())
-                .booker(booking.getBooker())
-                .item(booking.getItem())
+                .booker(UserDto.builder()
+                        .id(booking.getBooker().getId())
+                        .name(booking.getBooker().getName())
+                        .email(booking.getBooker().getEmail())
+                        .build())
+                .item(ItemDto.builder()
+                        .id(booking.getItem().getId())
+                        .name(booking.getItem().getName())
+                        .description(booking.getItem().getDescription())
+                        .available(booking.getItem().getAvailable())
+                        .build())
                 .status(booking.getStatus())
                 .build();
     }

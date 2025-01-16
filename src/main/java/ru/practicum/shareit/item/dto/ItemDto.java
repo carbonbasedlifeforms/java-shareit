@@ -4,7 +4,6 @@ import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import lombok.Builder;
 import lombok.Data;
-import ru.practicum.shareit.item.model.Comment;
 import ru.practicum.shareit.validation.OnCreate;
 
 import java.time.LocalDateTime;
@@ -30,7 +29,7 @@ public class ItemDto {
 
     private LocalDateTime lastBooking;
 
-    private List<Comment> comments;
+    private List<CommentDto> comments;
 
     public Boolean hasName() {
         return name != null;

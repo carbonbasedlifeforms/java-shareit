@@ -1,17 +1,15 @@
 package ru.practicum.shareit.request.model;
 
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import jakarta.validation.constraints.NotNull;
+import lombok.*;
 import ru.practicum.shareit.user.model.User;
 
 import java.time.LocalDateTime;
 
 @Entity
 @Table(name = "requests")
-@Data
+@Getter @Setter @ToString
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
@@ -22,10 +20,12 @@ public class ItemRequest {
 
     private String description;
 
+    @NotNull
     @ManyToOne
     @JoinColumn(name = "requester_id")
     private User requester;
 
+    @NotNull
     @Column(name = "create_date")
     private LocalDateTime created;
 }

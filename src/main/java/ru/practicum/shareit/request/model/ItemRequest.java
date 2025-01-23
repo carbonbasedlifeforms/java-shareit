@@ -11,7 +11,6 @@ import java.time.LocalDateTime;
 @Table(name = "requests")
 @Getter
 @Setter
-@ToString
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
@@ -30,4 +29,14 @@ public class ItemRequest {
     @NotNull
     @Column(name = "create_date")
     private LocalDateTime created;
+
+    @Override
+    public String toString() {
+        return "ItemRequest{" +
+                "id=" + id +
+                ", description='" + description + '\'' +
+                ", requester=" + requester +
+                ", created=" + created +
+                '}';
+    }
 }

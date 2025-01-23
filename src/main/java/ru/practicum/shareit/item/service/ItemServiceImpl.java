@@ -91,7 +91,7 @@ public class ItemServiceImpl implements ItemService {
         }
         ItemMapper.updateItemFields(itemDto, item);
         log.info("Update item {}", item);
-        return ItemMapper.toItemDto(itemRepository.save(item));
+        return ItemMapper.toItemDto(item);
     }
 
     @Transactional

@@ -5,18 +5,20 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
+import ru.practicum.shareit.item.dto.CommentDto;
 import ru.practicum.shareit.item.dto.ItemDto;
 import ru.practicum.shareit.item.service.ItemService;
 import ru.practicum.shareit.validation.OnCreate;
 
 import java.util.List;
 
+import static ru.practicum.shareit.common.GlobalVariables.USER_ID_HEADER;
+
 @RestController
 @RequestMapping("/items")
 @RequiredArgsConstructor
 @Slf4j
 public class ItemController {
-    private static final String USER_ID_HEADER = "X-Sharer-User-Id";
     private final ItemService itemService;
 
     @GetMapping("/{itemId}")
@@ -50,5 +52,19 @@ public class ItemController {
                                     @RequestParam(name = "text") String query) {
         log.info("searching item with userId: {}, query: {}", userId, query);
         return itemService.searchItem(query);
+    }
+
+    @PostMapping("/{itemId}/comment")
+    public CommentDto addComment(@RequestHeader(name = USER_ID_HEADER) Long userId,
+                                 @PathVariable Long itemId,
+                                 @Valid@RequestBody CommentDto commentDto) {
+        log.info("adding comment with userId: {}, itemId: {}, commentDto: {}", userId, itemId, commentDto);
+        return itemService.addComment(userId, itemId, commentDto);
+    }
+
+    @GetMapping("/{itemId}/comment")
+    public List<CommentDto> getComments(@RequestHeader(name = USER_ID_HEADER) Long userId, @PathVariable Long itemId) {
+        log.info("getting comments with userId: {}, itemId: {}", userId, itemId);
+        return itemService.getComments(userId, itemId);
     }
 }

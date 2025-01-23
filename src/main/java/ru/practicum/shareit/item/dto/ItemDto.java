@@ -6,6 +6,9 @@ import lombok.Builder;
 import lombok.Data;
 import ru.practicum.shareit.validation.OnCreate;
 
+import java.time.LocalDateTime;
+import java.util.List;
+
 @Data
 @Builder
 public class ItemDto {
@@ -21,6 +24,12 @@ public class ItemDto {
     private Boolean available;
 
     private Long request;
+
+    private LocalDateTime nextBooking;
+
+    private LocalDateTime lastBooking;
+
+    private List<CommentDto> comments;
 
     public Boolean hasName() {
         return name != null;

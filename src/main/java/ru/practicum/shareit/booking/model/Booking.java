@@ -13,7 +13,6 @@ import java.time.LocalDateTime;
 @Table(name = "bookings")
 @Getter
 @Setter
-@ToString
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
@@ -42,4 +41,16 @@ public class Booking {
     @NotNull
     @Enumerated(EnumType.STRING)
     private BookingStatus status;
+
+    @Override
+    public String toString() {
+        return "Booking{" +
+                "id=" + id +
+                ", start=" + start +
+                ", end=" + end +
+                ", item=" + item +
+                ", booker=" + booker +
+                ", status=" + status +
+                '}';
+    }
 }

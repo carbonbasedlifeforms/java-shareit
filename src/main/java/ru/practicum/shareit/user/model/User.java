@@ -10,7 +10,6 @@ import lombok.*;
 @Table(name = "users")
 @Getter
 @Setter
-@ToString
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
@@ -26,4 +25,13 @@ public class User {
     @Email
     @Column(unique = true)
     private String email;
+
+    @Override
+    public String toString() {
+        return "User{" +
+                "id=" + id +
+                ", name='" + name + '\'' +
+                ", email='" + email + '\'' +
+                '}';
+    }
 }

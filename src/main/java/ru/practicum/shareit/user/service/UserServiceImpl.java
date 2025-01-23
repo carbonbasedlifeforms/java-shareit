@@ -50,7 +50,7 @@ public class UserServiceImpl implements UserService {
                 .orElseThrow(() -> new NotFoundException("User ID %d not found".formatted(id)));
         UserMapper.updateUserFields(userDto, userForUpdate);
         log.info("update user with id {}", id);
-        return UserMapper.toUserDto(userRepository.save(userForUpdate));
+        return UserMapper.toUserDto(userForUpdate);
     }
 
     @Transactional

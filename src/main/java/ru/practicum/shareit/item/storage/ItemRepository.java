@@ -16,9 +16,14 @@ public interface ItemRepository extends JpaRepository<Item, Long> {
             select i
             from Item i
             where i.available = true
-            and (i.name ilike concat('%', :query, '%')
-            or i.description ilike concat('%', :query, '%'))""")
+            and (lower(i.name) like lower(concat('%', :query, '%'))
+            or i.description like lower(concat('%', :query, '%')))
+            """)
     List<Item> search(String query);
 
     Optional<Item> findByIdAndAvailableIsTrue(Long id);
+
+    List<Item> findAllByRequestIdIn(List<Long> Idlist);
+
+    List<Item> findAllByRequestId(Long id);
 }

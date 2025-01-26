@@ -23,7 +23,7 @@ public class ItemDto {
     @NotNull(groups = OnCreate.class)
     private Boolean available;
 
-    private Long request;
+    private Long requestId;
 
     private LocalDateTime nextBooking;
 

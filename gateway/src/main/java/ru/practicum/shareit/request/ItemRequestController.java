@@ -4,10 +4,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import ru.practicum.shareit.item.ItemClient;
 import ru.practicum.shareit.request.dto.ItemRequestDto;
-
-import java.util.List;
 
 import static ru.practicum.shareit.common.GlobalVariables.USER_ID_HEADER;
 
@@ -39,7 +36,7 @@ public class ItemRequestController {
 
     @GetMapping({("/{requestId}")})
     public ResponseEntity<Object> getRequestById(@RequestHeader(name = USER_ID_HEADER) Long userId,
-                                                @PathVariable Long requestId) {
+                                                 @PathVariable Long requestId) {
         log.info("get request by id: {}", requestId);
         return itemRequestClient.getRequestById(userId, requestId);
     }

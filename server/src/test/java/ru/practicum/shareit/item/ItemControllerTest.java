@@ -81,12 +81,10 @@ class ItemControllerTest {
                 .andExpect(jsonPath("$", hasSize(2)))
                 .andExpect(jsonPath("$[0].id", is(itemDto.getId()), Long.class))
                 .andExpect(jsonPath("$[0].name", is(itemDto.getName()), String.class))
-                .andExpect(jsonPath("$[0].description", is(itemDto.getDescription()),
-                        String.class))
+                .andExpect(jsonPath("$[0].description", is(itemDto.getDescription()), String.class))
                 .andExpect(jsonPath("$[1].id", is(anotherItemDto.getId()), Long.class))
                 .andExpect(jsonPath("$[1].name", is(anotherItemDto.getName()), String.class))
-                .andExpect(jsonPath("$[1].description", is(anotherItemDto.getDescription()),
-                        String.class));
+                .andExpect(jsonPath("$[1].description", is(anotherItemDto.getDescription()), String.class));
     }
 
     @Test
@@ -102,10 +100,8 @@ class ItemControllerTest {
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.id", is(itemDto.getId()), Long.class))
                 .andExpect(jsonPath("$.name", is(itemDto.getName()), String.class))
-                .andExpect(jsonPath("$.description", is(itemDto.getDescription()),
-                        String.class))
-                .andExpect(jsonPath("$.available", is(itemDto.getAvailable())
-                        , Boolean.class));
+                .andExpect(jsonPath("$.description", is(itemDto.getDescription()), String.class))
+                .andExpect(jsonPath("$.available", is(itemDto.getAvailable()), Boolean.class));
     }
 
     @Test

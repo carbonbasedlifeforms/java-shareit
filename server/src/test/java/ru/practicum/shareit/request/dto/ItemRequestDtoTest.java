@@ -34,7 +34,8 @@ class ItemRequestDtoTest {
                 .build();
         JsonContent<ItemRequestDto> jsonContent = json.write(itemRequestDto);
         assertThat(jsonContent).extractingJsonPathNumberValue("$.id").isEqualTo(1);
-        assertThat(jsonContent).extractingJsonPathStringValue("$.description").isEqualTo("Need something");
+        assertThat(jsonContent).extractingJsonPathStringValue("$.description")
+                .isEqualTo("Need something");
         assertThat(jsonContent).extractingJsonPathNumberValue("$.requester").isEqualTo(1);
         assertThat(jsonContent).extractingJsonPathNumberValue("$.items[0].id").isEqualTo(1);
         assertThat(jsonContent).extractingJsonPathNumberValue("$.items[1].id").isEqualTo(2);

@@ -77,7 +77,7 @@ public class ItemServiceImpl implements ItemService {
     @Transactional
     @Override
     public ItemDto createItem(Long userId, ItemDto itemDto) {
-        Item item = ItemMapper.toItem(itemDto, getUserIfExists(userId)) ;
+        Item item = ItemMapper.toItem(itemDto, getUserIfExists(userId));
         if (itemDto.getRequestId() != null) {
             itemRequestRepository.findById(itemDto.getRequestId())
                     .ifPresent(item::setRequest);
@@ -108,7 +108,7 @@ public class ItemServiceImpl implements ItemService {
         Item item = itemRepository.findById(itemId)
                 .orElseThrow(() -> new NotFoundException("Item with id %d not found".formatted(itemId)));
         bookingRepository.findFirstByItemIdAndBookerIdAndEndBeforeAndStatus(itemId, userId,
-                LocalDateTime.now(), BookingStatus.APPROVED)
+                        LocalDateTime.now(), BookingStatus.APPROVED)
                 .orElseThrow(() -> new ValidationException(
                         "Comment for item with id %d and user with id %d is not possible"
                                 .formatted(itemId, userId)));

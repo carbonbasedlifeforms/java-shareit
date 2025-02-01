@@ -67,10 +67,8 @@ class ItemControllerTest {
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.id", is(itemDto.getId()), Long.class))
                 .andExpect(jsonPath("$.name", is(itemDto.getName()), String.class))
-                .andExpect(jsonPath("$.description", is(itemDto.getDescription()),
-                        String.class))
-                .andExpect(jsonPath("$.available", is(itemDto.getAvailable())
-                        , Boolean.class));
+                .andExpect(jsonPath("$.description", is(itemDto.getDescription()), String.class))
+                .andExpect(jsonPath("$.available", is(itemDto.getAvailable()), Boolean.class));
     }
 
     @Test

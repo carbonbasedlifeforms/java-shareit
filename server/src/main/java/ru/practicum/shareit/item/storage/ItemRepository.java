@@ -23,7 +23,7 @@ public interface ItemRepository extends JpaRepository<Item, Long> {
 
     Optional<Item> findByIdAndAvailableIsTrue(Long id);
 
-    List<Item> findAllByRequestIdIn(List<Long> Idlist);
+    List<Item> findAllByRequestIdIn(List<Long> idlist);
 
     List<Item> findAllByRequestId(Long id);
 }

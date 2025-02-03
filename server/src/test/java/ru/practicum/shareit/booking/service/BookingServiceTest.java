@@ -8,6 +8,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 import ru.practicum.shareit.booking.dto.BookingDto;
 import ru.practicum.shareit.booking.dto.BookingInDto;
 import ru.practicum.shareit.booking.enums.BookingStatus;
+import ru.practicum.shareit.exception.NotFoundException;
 import ru.practicum.shareit.item.dto.ItemDto;
 import ru.practicum.shareit.item.service.ItemService;
 import ru.practicum.shareit.user.dto.UserDto;
@@ -18,6 +19,7 @@ import java.util.List;
 
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.equalTo;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 
 @SpringBootTest
 @AutoConfigureTestDatabase
@@ -71,11 +73,44 @@ class BookingServiceTest {
         assertThat(updatedBooking.getStatus(), equalTo(BookingStatus.APPROVED));
 
         List<BookingDto> userBookings = bookingService.getUserBookings(savedUser.getId(), "ALL");
-
         assertThat(userBookings.size(), equalTo(1));
 
-        List<BookingDto> ownerItemsBookings = bookingService.getBookingsForOwnerItems(savedUser.getId(), "ALL");
+        userBookings = bookingService.getUserBookings(savedUser.getId(), "REJECTED");
+        assertThat(userBookings.size(), equalTo(0));
 
+        userBookings = bookingService.getUserBookings(savedUser.getId(), "FUTURE");
+        assertThat(userBookings.size(), equalTo(0));
+
+        userBookings = bookingService.getUserBookings(savedUser.getId(), "WAITING");
+        assertThat(userBookings.size(), equalTo(0));
+
+        userBookings = bookingService.getUserBookings(savedUser.getId(), "PAST");
+        assertThat(userBookings.size(), equalTo(1));
+
+        userBookings = bookingService.getUserBookings(savedUser.getId(), "CURRENT");
+        assertThat(userBookings.size(), equalTo(0));
+
+        userBookings = bookingService.getUserBookings(savedUser.getId(), "FUTURE");
+        assertThat(userBookings.size(), equalTo(0));
+
+        List<BookingDto> ownerItemsBookings = bookingService.getBookingsForOwnerItems(savedUser.getId(), "ALL");
         assertThat(ownerItemsBookings.size(), equalTo(1));
+
+        ownerItemsBookings = bookingService.getBookingsForOwnerItems(savedUser.getId(), "REJECTED");
+        assertThat(ownerItemsBookings.size(), equalTo(0));
+
+        ownerItemsBookings = bookingService.getBookingsForOwnerItems(savedUser.getId(), "FUTURE");
+        assertThat(ownerItemsBookings.size(), equalTo(0));
+
+        ownerItemsBookings = bookingService.getBookingsForOwnerItems(savedUser.getId(), "PAST");
+        assertThat(ownerItemsBookings.size(), equalTo(1));
+
+        ownerItemsBookings = bookingService.getBookingsForOwnerItems(savedUser.getId(), "CURRENT");
+        assertThat(ownerItemsBookings.size(), equalTo(0));
+
+        ownerItemsBookings = bookingService.getBookingsForOwnerItems(savedUser.getId(), "FUTURE");
+        assertThat(ownerItemsBookings.size(), equalTo(0));
+
+        assertThrows(NotFoundException.class, () -> bookingService.getBooking(-1L, savedBooking.getId()));
     }
 }

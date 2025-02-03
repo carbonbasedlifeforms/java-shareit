@@ -118,7 +118,9 @@ public class ItemServiceImpl implements ItemService {
 
     @Override
     public List<CommentDto> getComments(Long userId, Long itemId) {
-        return List.of();
+        return commentRepository.findAllByAuthorIdAndItemId(userId, itemId).stream()
+                .map(CommentMapper::toCommentDto)
+                .toList();
     }
 
     private User getUserIfExists(Long userId) {

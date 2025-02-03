@@ -12,7 +12,7 @@ import org.springframework.web.bind.annotation.*;
 import ru.practicum.shareit.booking.dto.BookItemRequestDto;
 import ru.practicum.shareit.booking.dto.BookingState;
 
-import static ru.practicum.shareit.common.GlobalVariables.USER_ID_HEADER;
+import static ru.practicum.shareit.ShareItGateway.USER_ID_HEADER;
 
 @Controller
 @RequestMapping(path = "/bookings")

@@ -6,7 +6,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import ru.practicum.shareit.request.dto.ItemRequestDto;
 
-import static ru.practicum.shareit.common.GlobalVariables.USER_ID_HEADER;
+import static ru.practicum.shareit.ShareItGateway.USER_ID_HEADER;
 
 @Slf4j
 @RestController

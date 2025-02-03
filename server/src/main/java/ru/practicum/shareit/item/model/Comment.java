@@ -36,15 +36,4 @@ public class Comment {
     @NotNull
     @Column(name = "create_date")
     private LocalDateTime created;
-
-    @Override
-    public String toString() {
-        return "Comment{" +
-                "id=" + id +
-                ", text='" + text + '\'' +
-                ", item=" + item +
-                ", author=" + author +
-                ", created=" + created +
-                '}';
-    }
 }

@@ -24,7 +24,7 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
-import static ru.practicum.shareit.common.GlobalVariables.USER_ID_HEADER;
+import static ru.practicum.shareit.ShareItServer.USER_ID_HEADER;
 
 
 @WebMvcTest(controllers = ItemRequestController.class)
@@ -58,7 +58,8 @@ class ItemRequestControllerTest {
 
     @Test
     void createItemRequest() throws Exception {
-        when(itemRequestService.saveRequest(anyLong(), any())).thenReturn(itemRequestDto);
+        when(itemRequestService.saveRequest(anyLong(), any()))
+                .thenReturn(itemRequestDto);
         mockMvc.perform(post("/requests")
                         .header(USER_ID_HEADER, 1)
                         .content(mapper.writeValueAsString(itemRequestDto))

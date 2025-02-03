@@ -8,7 +8,7 @@ import ru.practicum.shareit.request.service.ItemRequestService;
 
 import java.util.List;
 
-import static ru.practicum.shareit.common.GlobalVariables.USER_ID_HEADER;
+import static ru.practicum.shareit.ShareItServer.USER_ID_HEADER;
 
 @Slf4j
 @RestController

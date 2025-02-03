@@ -32,13 +32,4 @@ public class ItemRequest {
     @Column(name = "create_date")
     private LocalDateTime created;
 
-    @Override
-    public String toString() {
-        return "ItemRequest{" +
-                "id=" + id +
-                ", description='" + description + '\'' +
-                ", requester=" + requester +
-                ", created=" + created +
-                '}';
-    }
 }

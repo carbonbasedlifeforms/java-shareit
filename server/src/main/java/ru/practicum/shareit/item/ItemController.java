@@ -9,7 +9,7 @@ import ru.practicum.shareit.item.service.ItemService;
 
 import java.util.List;
 
-import static ru.practicum.shareit.ShareItServer.USER_ID_HEADER;
+import static ru.practicum.shareit.common.GlobalVariables.USER_ID_HEADER;
 
 @RestController
 @RequestMapping("/items")

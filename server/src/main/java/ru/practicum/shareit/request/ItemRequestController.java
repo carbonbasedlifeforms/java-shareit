@@ -8,7 +8,7 @@ import ru.practicum.shareit.request.service.ItemRequestService;
 
 import java.util.List;
 
-import static ru.practicum.shareit.ShareItServer.USER_ID_HEADER;
+import static ru.practicum.shareit.common.GlobalVariables.USER_ID_HEADER;
 
 @Slf4j
 @RestController
@@ -36,7 +36,7 @@ public class ItemRequestController {
         return itemRequestService.findAllRequests(userId);
     }
 
-    @GetMapping({("/{requestId}")})
+    @GetMapping("/{requestId}")
     public ItemRequestDto getRequestById(@RequestHeader(name = USER_ID_HEADER) Long userId,
                                          @PathVariable Long requestId) {
         log.info("get request by id: {}", requestId);

@@ -24,5 +24,5 @@ public class ItemRequestDto {
 
     private LocalDateTime created;
 
-    List<ItemDto> items;
+    private List<ItemDto> items;
 }
